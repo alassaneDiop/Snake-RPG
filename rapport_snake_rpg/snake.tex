@@ -1,0 +1,165 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{listings,xcolor}
+\usepackage{appendix}
+\usepackage{adjustbox}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+%Géométrie des pages
+\usepackage{geometry}
+\geometry{hmargin=1.9cm,vmargin=1.9cm}
+
+%Définition des couleurs pour le code xml
+\definecolor{colorxmlnode}{rgb}{0.2, 0.2, 0.2} 
+\definecolor{maroon}{RGB}{178 34 34}
+
+
+%Profondeur des compteurs et de la tableofcontents
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+
+%lst xml
+\lstdefinelanguage{XML}
+{
+  basicstyle=\ttfamily,
+  morestring=[s]{"}{"},
+  morecomment=[s]{?}{?},
+  morecomment=[s]{!--}{--},
+  commentstyle=\color{darkgreen},
+  moredelim=[s][\color{black}]{>}{<},
+  moredelim=[s][\color{red}]{\ }{=},
+  stringstyle=\color{blue},
+  identifierstyle=\color{maroon}
+}
+
+
+\addto\captionsfrench{%
+  \renewcommand\appendixname{Annexe}
+  \renewcommand\appendixpagename{Annexes}
+}
+
+%Définition des commandes \noeud et \classe
+\newcommand\classe[1]{\mbox{\textit{#1}}}
+\newcommand\noeud[1]{\textcolor{colorxmlnode}{<\mbox{#1}>}}
+
+
+
+
+\begin{document}
+
+\begin{titlepage}
+	\centering
+	
+    \vspace*{1.2 cm}
+    
+   	\textsc{\LARGE Master i informatique\\Design Pattern\\[0.3cm]\large Décembre 2017}
+
+	\vspace{2.2cm}
+    
+    
+    \includegraphics[scale = 0.29]{img/snake.png}\\[0.5 cm]
+	\rule{\linewidth }{0.2 mm} \\[0.15 cm]
+    {\LARGE \textbf{Projet de Développement}\\[0.2cm] \large
+		\textbf{Snake en réseau}}\\
+	\rule{\linewidth}{0.2 mm}
+       \vspace*{0.1 cm}
+	
+	\begin{center}
+	\vspace{0.3cm}
+	
+	\emph{Auteurs}\\
+	\vspace{0.1cm}
+	David \bsc{Dembele}\\ 
+	Alassane \bsc{Diop}\\
+	Rahmatou Walet \bsc{Mohamedoun}
+		
+	\vspace{0.5cm}
+	\emph{Professeur}\\
+	\vspace{0.1cm}
+	Benoit \bsc{Da Mota}
+	\end{center}		
+	
+		
+	\vspace{1.5cm}
+	\hspace{15cm}\includegraphics[scale = 0.1]{img/logo.png}
+
+    
+    
+\end{titlepage}
+
+
+\tableofcontents
+
+\chapter{Introduction}
+
+	\section{Contexte}
+		\input{Introduction/contexte.tex} \label{contexte}
+	
+	\section{Objectifs}
+		\input{Introduction/objectifs.tex} \label{objectifs}
+
+\chapter{Protocole réseau}
+	
+	\section{Motivation}
+		\input{Protocole/motivation.tex} \label{motivation}
+
+	\section{Justification}
+		\input{Protocole/justification.tex} \label{justification}
+
+	\section{Éventuels problèmes}
+		\input{Protocole/problemes.tex} \label{problemes}
+	
+	\section{Implémentation}
+		\input{Protocole/implementation.tex} \label{implementation}
+		
+
+\chapter{Conception}
+			
+	\section{Cas d'utilisation}
+			\input{Conception/cas_utilisation.tex} \label{cas_utilisation}
+			
+	\section{Points de changement et d'évolution}
+			\input{Conception/changement.tex} \label{changement}
+			\input{Conception/evolution.tex} \label{evolution}
+			
+	\section{Design envisagé}
+			\input{Conception/design.tex} \label{design}
+			
+	\section{Justification}
+			\input{Conception/justification.tex} \label{justification}
+			
+
+\chapter{Conclusion}
+			
+%	\section{Types de QR Codes}
+%		\input{Modelisation/typesQRCodes.tex} \label{typesQR}
+%		
+%	\newpage
+%		
+%	\section{Représentation des données}
+%		\input{Modelisation/representationDonnees.tex} \label{representationDonnees}
+%		
+%	\section{Stockage des données}
+%		\input{Modelisation/stockage.tex} \label{stockage}
+%		
+%
+
+\end{document}
