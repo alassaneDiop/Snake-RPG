@@ -1,0 +1,11 @@
+\par
+Le protocole UDP est utilisé dans les cas suivants :
+\begin{itemize}
+	\item déconnexion : lorsqu'un joueur souhaite quitter le jeu il envoie une requête de déconnexion au serveur, le serveur reçoit la requête et lui déconnecte du jeu sans lui en informer (sans accusé de réception).
+	
+	\item envoi du plan de jeu : lorsque le serveur centralise les actions des utilisateurs, il met à jour le plan du jeu et l'envoie aux joueurs; cette opérations peut être répétée autant de fois possible sans perturber le jeu.\\
+\end{itemize}
+
+\par
+Le protocole TCP est utilisé à chaque fois qu'il y ait échange entre le serveur et les joueurs sauf dans le cas d'une déconnexion ou d'un envoi du plan de jeu.\\
+Les échanges d'informations entre le serveur et les joueurs doivent être fiables, sans erreurs notamment dans le cas d'une connexion d'un joueur au serveur, de la réception par les serveurs des actions des joueurs.
