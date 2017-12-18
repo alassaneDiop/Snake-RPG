@@ -1,0 +1,27 @@
+\par
+
+Ci dessous les étapes du déroulement du jeu :
+
+\begin{tabbing}
+\hspace{2cm}\=\hspace{1cm}\=\hspace{2cm}\=\kill
+ joueur1 \>  --> \>  serveur \> Connexion au serveur \\
+ joueur1 \>  --> \>  serveur \> Création d'une nouvelle partie \\
+ serveur \>  --> \>  joueurs \> Notification nouvelle partie \\
+ joueurs \>  --> \>  serveur \> Participer à la partie \\
+ serveur \>  --> \>  joueurs \> Envoie du plan de jeu \\ 
+ joueurs \>  --> \>  serveur \> Réception du plan de jeu \\
+\end{tabbing} 
+
+ ... Les joueurs commencent à joueur ... \\
+
+\begin{tabbing}
+\hspace{2cm}\=\hspace{1cm}\=\hspace{2cm}\=\kill
+ joueurX \>  --> \>  serveur \> Participer au jeu \\
+ serveur \>  --> \>  joueurX \> Participation acceptée \\
+ serveur \>  --> \>  joueurs \> Notification nouveau joueur \\
+ joueurY \>  --> \>  serveur \> Remporte la partie \\
+ serveur \>  --> \>  joueurs \> Notification partie remportée \\ 
+ serveur \>  --> \>  joueurs \> Fin de la partie \\
+\end{tabbing}
+
+Au cour du jeu, chaque joueur envoie ses déplacements au serveur qui les centralise et notifie à tous les joueurs qu'ils doivent rafraîchir leur plan de jeu. \\

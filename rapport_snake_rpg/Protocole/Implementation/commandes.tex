@@ -1,0 +1,30 @@
+
+%All the responses of the server are beginning with a numeric character 
+%as follow:
+ %    1xx Accept command response
+  %   2xx Denied command response
+   %  3xx Server command
+
+
+
+\par
+Les échanges entre le serveur et les joueurs reposent sur la norme ISO-8859\footnote{ISO 8859, également appelée plus formellement ISO/CEI 8859, est une norme commune de l'ISO et de la CEI de codage de caractères sur 8 bits pour le traitement informatique du texte. Wikipédia}. \\
+
+8 bits = 1 byte \\
+
+\par
+Les commandes des joueurs commenceront par le caractère '/' suivi du nom de la commande. \\
+Exemple : $/quit$ \\
+Cette commande permet à un joueur de quitter une partie de jeu. \\
+
+Pour simplifier le transfert de données et éviter des conflits avec le XML (voir \ref{xml}), les caractères suivants ne seront pas acceptés : 
+
+\begin{itemize}
+	\item '"' guillemets
+	\item '<' signe d'infériorité
+	\item '>' signe de supériorité \\
+\end{itemize}
+
+Le caractère '$~$' (espace) est autorisé s'il s'agit de séparer des blocs de données. Une commande ou un paramètre ne peuvent contenir un caractère '$~$' (espace). \\
+
+Toutes les commandes devront terminer par le caractère \textbackslash n pour marquer la fin de la commande.

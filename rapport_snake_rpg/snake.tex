@@ -13,6 +13,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage[hidelinks]{hyperref}
+\usepackage{amsmath}
 
 \hypersetup{
     colorlinks,
@@ -85,10 +86,10 @@
 	\begin{center}
 	\vspace{0.3cm}
 	
-	\emph{Auteurs}\\
+	\emph{Auteurs}\linebreak
 	\vspace{0.1cm}
-	David \bsc{Dembele}\\ 
-	Alassane \bsc{Diop}\\
+	David \bsc{Dembele}\linebreak
+	Alassane \bsc{Diop}\linebreak
 	Rahmatou Walet \bsc{Mohamedoun}
 		
 	\vspace{0.5cm}
@@ -129,11 +130,96 @@
 	
 	\newpage
 	\section{Implémentation}
-		\subsection{Protocole UDP}
-			\input{Protocole/udp.tex} \label{udp}
-		\subsection{Protocole TCP}
-			\input{Protocole/tcp.tex} \label{tcp}
+		\subsection{Le jeu}
+			\input{Protocole/Implementation/jeu.tex} \label{jeu}
+			
+		\subsection{Les commandes}
+			\input{Protocole/Implementation/commandes.tex} \label{commandes}
+			
+		\subsection{Messages acceptés}
+		\subsection{Messages d'erreur}
+		\subsection{Les commandes du serveur}
+%3. Commands
+%    3.1. Characters set
+%    3.2. Commands layout
+%    3.3. Forbidden characters
+%4. Overview of the commands / responses
+%    4.1. List of accept messages
+%    4.2. List of denied/error messages
+%    4.3. List of server commands 
 		
+		
+		
+		
+		\subsection{Protocole UDP}
+			\input{Protocole/Implementation/udp/udp.tex} \label{udp}
+							
+
+%6. TCP Protocol
+%    6.1. Client to server commands
+%        6.1.1. Global messages
+%        6.1.2. Nickname
+%        6.1.3. Games creation
+%        6.1.4. Level creation
+%        6.1.5. Join a game room
+%        6.1.6. Add a bot in a game room
+%        6.1.7. Leave a game room
+%        6.1.8. Remove a bot from a game room
+%        6.1.9. Quit the game
+%        6.1.10. Notify a map reception
+%        6.1.11. Make a snake player turn
+%        6.1.12. Make a snake bot turn
+%        6.1.13. Add a miam
+%        6.1.14. Notify the end of a level
+%    6.2. Server to client commands
+%        6.2.1. Emission of the next map level
+%        6.2.2. Display a map on the screen
+%        6.2.3. Game play start
+%        6.2.4. Game play end
+%        6.2.5. New players/bots directions list
+%        6.2.6. Disconnect of a player
+%        6.2.7. Destruction of a party
+%        6.2.8. A player join a game room with an already started game 
+%               play
+
+		\subsection{Protocole TCP}
+			\subsubsection{Joueur vers Serveur}
+				\begin{enumerate}
+					\item Messages
+					\input{Protocole/Implementation/tcp/joueur_serveur/messages.tex} \label{messages}
+					\item Nom du joueur
+					\input{Protocole/Implementation/tcp/joueur_serveur/nomJoueur.tex} \label{nomJoueur}
+					\item Participer au jeu
+					\input{Protocole/Implementation/tcp/joueur_serveur/participerJeu.tex} \label{participerJeu}
+					\item Quitter le jeu
+					\input{Protocole/Implementation/tcp/joueur_serveur/quitterJeu.tex} \label{quitterJeu}
+					\item Notifier la réception du plan de jeu
+					\input{Protocole/Implementation/tcp/joueur_serveur/receptionPlanJeu.tex} \label{receptionPlanJeu}
+					\item Déplacer le serpent
+					\input{Protocole/Implementation/tcp/joueur_serveur/deplacerSerpent.tex} \label{deplacerSerpent}
+					\item Fin de la partie
+					\input{Protocole/Implementation/tcp/joueur_serveur/finPartie.tex} \label{finPartie}
+					
+				\end{enumerate}				
+
+			\subsubsection{Serveur vers Joueurs}
+				\input{Protocole/Implementation/tcp/serveur_joueur/serveurJoueur.tex} \label{serveurJoueur}
+				
+				\begin{enumerate}
+					\item Début de la partie
+					\input{Protocole/Implementation/tcp/serveur_joueur/debutPartie.tex} \label{debutPartie}
+					\item Fin de la partie
+					\input{Protocole/Implementation/tcp/serveur_joueur/finPartie.tex} \label{finPartie}
+					\item Envoi du plan de jeu
+					\input{Protocole/Implementation/tcp/serveur_joueur/envoiPlan.tex} \label{envoiPlan}
+					\item Affichage du plan de jeu
+					\input{Protocole/Implementation/tcp/serveur_joueur/affichePlan.tex} \label{affichePlan}
+					\item Nouveau joueur
+					\input{Protocole/Implementation/tcp/serveur_joueur/nouveauJoueur.tex} \label{nouveauJoueur}
+					\item Déconnexion d'un joueur
+					\input{Protocole/Implementation/tcp/serveur_joueur/joueurParti.tex} \label{joueurParti}
+					
+				\end{enumerate}			
 
 \chapter{Conception}
 			

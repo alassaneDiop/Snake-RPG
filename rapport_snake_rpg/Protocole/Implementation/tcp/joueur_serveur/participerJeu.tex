@@ -1,0 +1,25 @@
+\par
+$/join ~"motDePasse"$
+
+\par
+Cette commande nécessite un mot de passe pour participer au jeu. Si aucun mot de passe n'est requis alors $motDePasse ~ = ~ *$\\
+
+Ci dessous les réponses possibles à cette commande :
+
+\begin{itemize}
+	\item 204 Mot de passe requis
+	\item 205 Mot de passe incorrect
+	\item 103 Bienvenue au jeu.\\
+	Une couleur est attribuée au joueur. Une liste XML\label{xml} lui est envoyée, voir exemple ci-dessous:\\
+\begin{tabbing}
+\hspace{1cm}\=\kill
+$103 ~ bleu ~ <joueurs>$ \\
+ \> $<joueur ~ pseudo="pseudo" ~ couleur="couleur" ~ score="score" />$ \\
+ \>	$...$ \\
+$</joueur>$
+\end{tabbing} 
+
+\end{itemize}
+
+À chaque fois qu'un joueur rejoigne le jeu, un message est envoyé aux autres joueurs déjà présent dans le jeu.
+$307 ~ "couleur" ~ "pseudoJoueur" ~ a ~ rejoint ~ le ~ jeu$\\
