@@ -1,0 +1,20 @@
+\par
+
+Ci dessous, les messages de succès renvoyés par le serveur : 
+
+\begin{tabbing}
+
+\hspace{5cm}\=\kill
+ \textit{100 "Message de bienvenue"}		\> message d'acceptation global \\
+ \textit{101 "pseudo" ok} 					\> pseudo accepté \\
+ \textit{102 "couleur" "xml"}		 		\> Le joueur de couleur "couleur" rejoint le jeu; "xml" (voir \ref{xml}) représente ses données \\
+ \textit{103 "couleur" parti}				\> Le joueur a quitté le jeu \\
+ \textit{104 changement niveau}			\> Changement du niveau de jeu dans le serveur \\\\
+
+ \textit{300 debut partie}					\> Commande pour notifier le début de la partie à tous les joueurs \\
+ \textit{301 fin "couleur"}				\> Fin de la partie. \textit{"couleur"} désigne le joueur qui remporte la partie. \\
+ \textit{302 nbJoueurs {X couleur}}		\> Commande pour envoyer le plan de jeu à tous les joueurs \\
+
+ \textit{303 affichage plan} 				\> Commande pour notifier à tous les joueurs d'afficher le plan de jeu \\
+ 
+\end{tabbing} 

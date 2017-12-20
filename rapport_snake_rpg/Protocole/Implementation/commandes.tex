@@ -1,12 +1,3 @@
-
-%All the responses of the server are beginning with a numeric character 
-%as follow:
- %    1xx Accept command response
-  %   2xx Denied command response
-   %  3xx Server command
-
-
-
 \par
 Les échanges entre le serveur et les joueurs reposent sur la norme ISO-8859\footnote{ISO 8859, également appelée plus formellement ISO/CEI 8859, est une norme commune de l'ISO et de la CEI de codage de caractères sur 8 bits pour le traitement informatique du texte. Wikipédia}. \\
 
@@ -14,9 +5,19 @@ Les échanges entre le serveur et les joueurs reposent sur la norme ISO-8859\foo
 
 \par
 Les commandes des joueurs commenceront par le caractère '/' suivi du nom de la commande. \\
-Exemple : $/quit$ \\
+Exemple : \textit{/quit} \\
 Cette commande permet à un joueur de quitter une partie de jeu. \\
 
+\par
+Toutes les réponses du serveur seront représentées comme suit : 
+
+\begin{itemize}
+	\item \textit{1xx} réponse de succès d'une commande
+	\item \textit{2xx} réponse d'erreur d'une commande 
+	\item \textit{3xx} Commande du serveur \\
+\end{itemize}
+
+\par
 Pour simplifier le transfert de données et éviter des conflits avec le XML (voir \ref{xml}), les caractères suivants ne seront pas acceptés : 
 
 \begin{itemize}
@@ -25,6 +26,6 @@ Pour simplifier le transfert de données et éviter des conflits avec le XML (vo
 	\item '>' signe de supériorité \\
 \end{itemize}
 
-Le caractère '$~$' (espace) est autorisé s'il s'agit de séparer des blocs de données. Une commande ou un paramètre ne peuvent contenir un caractère '$~$' (espace). \\
+Le caractère \textit{' '} (espace) est autorisé, s'il s'agit de séparer des blocs de données. Une commande ou un paramètre ne peut contenir de caractère \textit{' '} (espace). \\
 
 Toutes les commandes devront terminer par le caractère \textbackslash n pour marquer la fin de la commande.

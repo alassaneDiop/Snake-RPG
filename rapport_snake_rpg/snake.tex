@@ -14,6 +14,7 @@
 \usepackage{subcaption}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath}
+\usepackage{tabto}
 
 \hypersetup{
     colorlinks,
@@ -137,19 +138,13 @@
 			\input{Protocole/Implementation/commandes.tex} \label{commandes}
 			
 		\subsection{Messages acceptés}
+			\input{Protocole/Implementation/messagesAcceptes.tex} \label{messagesAcceptes}
+			
 		\subsection{Messages d'erreur}
+			\input{Protocole/Implementation/messagesRefuses.tex} \label{messagesRefuses}
+			
 		\subsection{Les commandes du serveur}
-%3. Commands
-%    3.1. Characters set
-%    3.2. Commands layout
-%    3.3. Forbidden characters
-%4. Overview of the commands / responses
-%    4.1. List of accept messages
-%    4.2. List of denied/error messages
-%    4.3. List of server commands 
-		
-		
-		
+			\input{Protocole/Implementation/commandesServeur.tex} \label{commandeServeur}		
 		
 		\subsection{Protocole UDP}
 			\input{Protocole/Implementation/udp/udp.tex} \label{udp}
