@@ -1,0 +1,14 @@
+\par
+Nos choix sur les patterns envisagés ne sont fortuits et sont motivés par le souci de faire une conception ouverte à l'évolution. \\
+
+L'usage du pattern MVC pour la couche serveur, nous permet de dissocier les composants de cette couche, une séparation claire des responsabilités. \\
+
+Étant donné la communication à distance entre le serveur et les joueurs, nous utilisons le pattern Proxy qui, est très utilisé pour la gestion d'objets distribués (protocole RMI en Java par exemple). L'idée étant de construire un Proxy capable de communiquer avec un objet distant (usage de la sérialisation en Java) sans que l'exploitant fasse de différences entre un accès local ou un accès distant. \\
+
+En raison de la complexité des actions du serveur, nous avons jugé utile d'encapsuler ses actions en fournissant une interface unifiée à l'ensemble des sous systèmes qu'on peut avoir dans le serveur; d'où l'usage du pattern Façade qui fournit une interface de plus haut niveau qui rend le sous système du serveur plus facile à utiliser. \\
+
+Ainsi la couche client communique avec la couche serveur via l'interface unifiée fournie par le serveur, avec le pattern Proxy. La vue et le modèle communiquent également avec le serveur (contrôleur) via l'interface unifiée fournie par le serveur. \\
+
+Pour assurer la persistance des données des joueurs de manière optimale, nous avons séparé la couche de persistance du reste de l'application; ceci permet à notre application d'être indépendante de la couche de persistance et d'anticiper sur l'évolution de l'application. \\
+
+Pour cela nous utilisons le design pattern DAO; pour chaque classe du modèle, on aura une classe DAO correspondante. De ce fait toutes les opérations relatives à la persistance des données seront traitées dans les classes DAO.

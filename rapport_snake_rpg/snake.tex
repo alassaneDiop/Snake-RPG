@@ -126,10 +126,10 @@
 	\section{Justification}
 		\input{Protocole/justification.tex} \label{justification}
 
+	\newpage
 	\section{Éventuels problèmes}
 		\input{Protocole/problemes.tex} \label{problemes}
 	
-	\newpage
 	\section{Implémentation}
 		\subsection{Le jeu}
 			\input{Protocole/Implementation/jeu.tex} \label{jeu}
@@ -137,7 +137,7 @@
 		\subsection{Les commandes}
 			\input{Protocole/Implementation/commandes.tex} \label{commandes}
 			
-		\subsection{Messages acceptés}
+		\subsection{Messages de succès}
 			\input{Protocole/Implementation/messagesAcceptes.tex} \label{messagesAcceptes}
 			
 		\subsection{Messages d'erreur}
@@ -148,34 +148,6 @@
 		
 		\subsection{Protocole UDP}
 			\input{Protocole/Implementation/udp/udp.tex} \label{udp}
-							
-
-%6. TCP Protocol
-%    6.1. Client to server commands
-%        6.1.1. Global messages
-%        6.1.2. Nickname
-%        6.1.3. Games creation
-%        6.1.4. Level creation
-%        6.1.5. Join a game room
-%        6.1.6. Add a bot in a game room
-%        6.1.7. Leave a game room
-%        6.1.8. Remove a bot from a game room
-%        6.1.9. Quit the game
-%        6.1.10. Notify a map reception
-%        6.1.11. Make a snake player turn
-%        6.1.12. Make a snake bot turn
-%        6.1.13. Add a miam
-%        6.1.14. Notify the end of a level
-%    6.2. Server to client commands
-%        6.2.1. Emission of the next map level
-%        6.2.2. Display a map on the screen
-%        6.2.3. Game play start
-%        6.2.4. Game play end
-%        6.2.5. New players/bots directions list
-%        6.2.6. Disconnect of a player
-%        6.2.7. Destruction of a party
-%        6.2.8. A player join a game room with an already started game 
-%               play
 
 		\subsection{Protocole TCP}
 			\subsubsection{Joueur vers Serveur}
@@ -190,6 +162,7 @@
 					\input{Protocole/Implementation/tcp/joueur_serveur/quitterJeu.tex} \label{quitterJeu}
 					\item Notifier la réception du plan de jeu
 					\input{Protocole/Implementation/tcp/joueur_serveur/receptionPlanJeu.tex} \label{receptionPlanJeu}
+					\newpage
 					\item Déplacer le serpent
 					\input{Protocole/Implementation/tcp/joueur_serveur/deplacerSerpent.tex} \label{deplacerSerpent}
 					\item Fin de la partie
@@ -209,6 +182,7 @@
 					\input{Protocole/Implementation/tcp/serveur_joueur/envoiPlan.tex} \label{envoiPlan}
 					\item Affichage du plan de jeu
 					\input{Protocole/Implementation/tcp/serveur_joueur/affichePlan.tex} \label{affichePlan}
+					\newpage
 					\item Nouveau joueur
 					\input{Protocole/Implementation/tcp/serveur_joueur/nouveauJoueur.tex} \label{nouveauJoueur}
 					\item Déconnexion d'un joueur
@@ -220,7 +194,8 @@
 			
 	\section{Cas d'utilisation}
 			\input{Conception/cas_utilisation.tex} \label{cas_utilisation}
-			
+
+	\newpage			
 	\section{Points de changement et d'évolution}
 			\input{Conception/changement.tex} \label{changement}
 			\input{Conception/evolution.tex} \label{evolution}
@@ -228,23 +203,11 @@
 	\section{Design envisagé}
 			\input{Conception/design.tex} \label{design}
 			
+	\newpage
 	\section{Justification}
 			\input{Conception/justification.tex} \label{justification}
 			
 
 \chapter{Conclusion}
-			
-%	\section{Types de QR Codes}
-%		\input{Modelisation/typesQRCodes.tex} \label{typesQR}
-%		
-%	\newpage
-%		
-%	\section{Représentation des données}
-%		\input{Modelisation/representationDonnees.tex} \label{representationDonnees}
-%		
-%	\section{Stockage des données}
-%		\input{Modelisation/stockage.tex} \label{stockage}
-%		
-%
-
+	\input{Conclusion/conclusion.tex} \label{conclusion}
 \end{document}

@@ -1,6 +1,5 @@
 \par
-Les échanges entre le serveur et les joueurs reposent sur la norme ISO-8859\footnote{ISO 8859, également appelée plus formellement ISO/CEI 8859, est une norme commune de l'ISO et de la CEI de codage de caractères sur 8 bits pour le traitement informatique du texte. Wikipédia}. \\
-
+Les échanges entre le serveur et les joueurs reposent sur la norme ISO-8859\footnote{ISO 8859, également appelée plus formellement ISO/CEI 8859, est une norme commune de l'ISO et de la CEI de codage de caractères sur 8 bits pour le traitement informatique du texte. Wikipédia} qui, a l'avantage d'être connue par tous les systèmes d'exploitation et ne requiert que 8 bits par caractère. \\
 8 bits = 1 byte \\
 
 \par
@@ -17,6 +16,7 @@ Toutes les réponses du serveur seront représentées comme suit :
 	\item \textit{3xx} Commande du serveur \\
 \end{itemize}
 
+\newpage
 \par
 Pour simplifier le transfert de données et éviter des conflits avec le XML (voir \ref{xml}), les caractères suivants ne seront pas acceptés : 
 
@@ -28,4 +28,4 @@ Pour simplifier le transfert de données et éviter des conflits avec le XML (vo
 
 Le caractère \textit{' '} (espace) est autorisé, s'il s'agit de séparer des blocs de données. Une commande ou un paramètre ne peut contenir de caractère \textit{' '} (espace). \\
 
-Toutes les commandes devront terminer par le caractère \textbackslash n pour marquer la fin de la commande.
+Toutes les commandes devront terminer par le caractère \textbackslash n pour marquer la fin de la commande. \\

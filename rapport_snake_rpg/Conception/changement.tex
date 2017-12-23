@@ -1,0 +1,20 @@
+\par
+Durant une partie de jeu, beaucoup d'objets sont amenés à être modifiés. En effet, les actions effectuées par les joueurs entraînent d'états. Ainsi pour un joueur donné, nous pouvons dire que les points de changement concerne : 
+
+\begin{itemize}
+
+	\item le serpent : le comportement du serpent change; il se déplace, ramasse des bonus, s'allonge au fur et à mesure du jeu. Sa visibilité peut changer ainsi que son nombre de vie.
+	
+	\item le niveau de jeu : à chaque fin de partie, les joueurs peuvent changer de niveau; ils passent d'un niveau inférieur à un niveau supérieur.
+	
+	\item le plan de jeu : il change en fonction du niveau de jeu. Chaque niveau de jeu propose un plan de jeu différent, plus complexe.
+	
+	\item le nombre de joueurs : au début du jeu, il y a un nombre de joueurs défini; ce nombre est amené à évoluer positivement si un joueur rejoint la partie et négativement si le serpent d'un joueur meurt.
+	
+	\item le score : plus un joueur ramasse des bonus, plus son score augmente.
+	
+	\item l'accès au serveur : l'accès au serveur d'un joueur peut passer d'un état connecté à un état déconnecté et inversement.
+	
+	\item une partie de jeu : elle peut passer d'un état début à un état en cours, d'un état en cours à un état pause, d'un état en cours à un état terminé.
+	
+\end{itemize}
