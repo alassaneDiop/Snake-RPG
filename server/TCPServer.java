@@ -1,8 +1,11 @@
 
 import java.net.*; 
+import java.util.Arrays;
+import java.util.List;
 import java.io.*; 
 
 class TCPServer {
+
 
 	public static void main (String args[]) {
 		int port;
@@ -10,8 +13,10 @@ class TCPServer {
 		Socket so;
 		BufferedReader entree;
 		DataOutputStream sortie;
-		String ch; // la chaine recue
+		String ch; // la chaine recue		
 
+		ContexteJoueur contexteJoueur;
+		
 		if (args.length == 1) {
 			try{
 				port = Integer.parseInt(args[0]);
@@ -21,12 +26,65 @@ class TCPServer {
 				
 				while (true) {
 					so = ecoute.accept(); // accepter la connexion d'un client
+
+					contexteJoueur = new ContexteJoueur();
+
 					entree = new BufferedReader(new InputStreamReader(so.getInputStream())); // lire la saisie du client
 					sortie = new DataOutputStream(so.getOutputStream());
-					ch = entree.readLine(); // on lit ce qui arrive
-					System.out.println("Client : message du client "+ch);
-					sortie.writeInt(ch.length());
-					so.close();
+					
+					while (true) {
+						ch = entree.readLine(); // on lit ce qui arrive
+	
+						switch (ch) {
+//
+// connecter ();
+// deconnecter ();
+// quitter();
+// choisirPseudo();
+// rejoindreJeu();
+// recevoirPlanJeu();
+// deplacer(String deplacement);
+
+							// case "/quit": 
+							// 	response = "Joueur [Couleur] parti";
+							// 	break;
+                            //
+							// case "/pseudo":
+							// 	response = "pseudo valide";
+							// 	break;
+								
+							case "/join":
+								contexteJoueur.etat.connecter();
+								// response = "100 [Bienvenue au jeu] / 204 [Identification échouée]";
+								break;
+								
+							// case "receptionPlan":
+							// 	response = "Commande reçue";
+							// 	break;
+							// 	
+							// case "/turn H":
+							// case "/turn B":
+							// case "/turn G":
+							// case "/turn D":
+							// 	response = "100 [Direction valide] / [Direction invalide]";
+							// 	break;
+
+							default :
+								break;
+						}
+
+						// Server serv = new Server();
+
+						System.out.println("Commande du joueur : " + ch);
+						// String response = serv.gestionCommande(ch);
+						// sortie.writeBytes(response + '\n');
+						
+						if (ch.equals("/quit")) {
+							so.close();
+							break;
+						}
+					}
+					
 				} 
 			} 
 			catch(IOException e) {
@@ -34,7 +92,16 @@ class TCPServer {
 			} 
 		}
 	}
+
+
 }
+
+
+
+
+
+
+
 
 
 /*

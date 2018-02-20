@@ -1,4 +1,4 @@
-compile:
+exec:
 	javac server/*.java client/*.java
 
 clean:

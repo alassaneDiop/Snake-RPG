@@ -2,6 +2,7 @@
 // A client program implementing TCP socket
 import java.net.*; 
 import java.io.*; 
+import java.util.Scanner;
 
 class TCPClient {
 
@@ -11,22 +12,32 @@ class TCPClient {
 		PrintWriter sortie;
 		String serveur; // le serveur
 		int port; // le port de connexion
-		String chaine; // la chaine envoyée
-		int l; // la longueur reçue
+		String chaine, response; // la commande envoyée, la réponse reçue
+		BufferedReader buffer = null;
 		
-		if (args.length == 3) {
+		if (args.length == 2) {
 			serveur = args[0];
 			port = Integer.parseInt(args[1]);
-			chaine = args[2];
 
 			try {
+				buffer = new BufferedReader(new InputStreamReader(System.in));
 				so = new Socket(serveur, port);
-				sortie = new PrintWriter(so.getOutputStream(), true);
-				entree = new DataInputStream(so.getInputStream());
-				sortie.println(chaine); // on écrit la chaine dans le canal de sortie
-				l = entree.readInt(); // on lit l'entier qui arrive
-				System.out.println("Message du serveur : la longueur de la chaine "+ l);
-				so.close();
+
+				while (true) {
+					sortie = new PrintWriter(so.getOutputStream(), true);
+					entree = new DataInputStream(so.getInputStream());
+
+					chaine = buffer.readLine();
+					sortie.println(chaine); // on écrit la chaine dans le canal de sortie
+
+					response = entree.readLine(); // on lit l'entier qui arrive
+					System.out.println("Réponse du serveur : " + response);
+
+					if (chaine.equals("/quit")) {
+						so.close();
+						break;
+					}
+				}
 			}
 			catch (UnknownHostException e){ 
 				System.out.println("Sock:"+e.getMessage());}
@@ -37,6 +48,19 @@ class TCPClient {
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  * Thread pour la réception des messages du serveur
