@@ -1,0 +1,13 @@
+Le client demande à se connecter au jeu
+Le server accepte sa connection
+
+le client demande à créer une partie de jeu
+le serveur lui autorise la création de la partie
+
+Le client commence à joueur 
+Le client envoie ses déplacements au serveur
+
+Le serveur recoit les déplacements du client
+Le serveur met à jour le modéle du jeu
+Le serveur ordonne à chaque client de redéfinir son modéle de jeu
+
