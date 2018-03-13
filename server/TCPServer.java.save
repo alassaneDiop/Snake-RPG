@@ -1,0 +1,156 @@
+import java.io.*;
+import java.net.*;
+
+
+/*
+public class echo3 {
+    public static void main(String args[]) {
+// declaration section:
+// declare a server socket and a client socket for the server
+// declare an input and an output stream
+        ServerSocket echoServer = null;
+        String line;
+        DataInputStream is;
+        PrintStream os;
+        Socket clientSocket = null;
+// Try to open a server socket on port 9999
+// Note that we can't choose a port less than 1023 if we are not
+// privileged users (root)
+        try {
+           echoServer = new ServerSocket(9999);
+        }
+        catch (IOException e) {
+           System.out.println(e);
+        }
+// Create a socket object from the ServerSocket to listen and accept
+// connections.
+// Open input and output streams
+    try {
+           clientSocket = echoServer.accept();
+           is = new DataInputStream(clientSocket.getInputStream());
+           os = new PrintStream(clientSocket.getOutputStream());
+// As long as we receive data, echo that data back to the client.
+           while (true) {
+             line = is.readLine();
+             os.println(line);
+           }
+        }
+    catch (IOException e) {
+           System.out.println(e);
+        }
+    }
+}
+*/
+
+// ================================================
+
+// TCPServer.java
+// A server program implementing TCP socket
+
+import java.net.*;
+import java.io.*;
+
+
+class TCPServer {
+	public static void main(String argv[]) throws Exception {
+		String clientSentence;
+		String capitalizedSentence;
+		ServerSocket welcomeSocket = new ServerSocket(6789);
+
+		while (true) {
+			Socket connectionSocket = welcomeSocket.accept();
+			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+			DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+			clientSentence = inFromClient.readLine();
+			System.out.println("Received: " + clientSentence);
+			capitalizedSentence = clientSentence.toUpperCase() + '\n';
+			outToClient.writeBytes(capitalizedSentence);
+		}
+	}
+}
+
+
+/*
+public class TCPServer {
+  public static void main (String args[])
+  {
+	try{
+			int serverPort = 6880;
+			ServerSocket listenSocket = new ServerSocket(serverPort);
+
+			System.out.println("server start listening ...");
+
+			while(true) {
+				Socket clientSocket = listenSocket.accept();
+				Connection c = new Connection(clientSocket);
+			}
+	}
+	catch(IOException e) {
+		System.out.println("Listen :"+e.getMessage());}
+  }
+}
+
+class Connection extends Thread {
+	DataInputStream input;
+	DataOutputStream output;
+	Socket clientSocket;
+
+	public Connection (Socket aClientSocket) {
+		try {
+			clientSocket = aClientSocket;
+			input = new DataInputStream( clientSocket.getInputStream()); 
+			output =new DataOutputStream( clientSocket.getOutputStream());
+			this.start();
+		}
+		catch(IOException e) {
+		System.out.println("Connection:"+e.getMessage());
+		}
+	}
+
+	public void run() {
+		try { // an echo server
+			//  String data = input.readUTF();
+			FileWriter out = new FileWriter("test.txt");
+			BufferedWriter bufWriter = new BufferedWriter(out);
+			
+			//Step 1 read length
+			int nb = input.readInt();
+			System.out.println("Read Length"+ nb);
+			byte[] digit = new byte[nb];
+			//Step 2 read byte
+			System.out.println("Writing.......");
+			for(int i = 0; i < nb; i++)
+				digit[i] = input.readByte();
+		  
+			String st = new String(digit);
+			bufWriter.append(st);
+			bufWriter.close();
+			System.out.println ("receive from : " +
+					clientSocket.getInetAddress() + ":" +
+					clientSocket.getPort() + " message - " + st);
+			
+			//Step 1 send length
+			output.writeInt(st.length());
+			//Step 2 send length
+			output.writeBytes(st); // UTF is a string encoding
+			//  output.writeUTF(data);
+		}
+		catch(EOFException e) {
+			System.out.println("EOF:"+e.getMessage()); 
+		}
+		catch(IOException e) {
+			System.out.println("IO:"+e.getMessage());
+		}
+
+		finally {
+			try {
+				clientSocket.close();
+			}
+			catch (IOException e){/*close failed*/
+		/*		
+			}
+		}
+	}
+}
+
+*/
