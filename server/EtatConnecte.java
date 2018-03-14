@@ -2,43 +2,37 @@
 public class EtatConnecte implements Etat {
 
 	ContexteJoueur joueur;
-	
 
-	public EtatConnecte (ContexteJoueur joueur) {
+	public EtatConnecte(ContexteJoueur joueur) {
 		this.joueur = joueur;
 	}
 
-
-	public void connecter () {
-		System.out.println("Vous êtes déjà connectés");
+	public void connecter(String response) {
+		// joueur.setEtat(joueur.getEtatConnecte());
+		// joueur.getEtatConnecte();
+		response = "Vous êtes déjà connectés";
 	}
 
-
 	// déconnecter le joueur et passer à l'état EtatDeconnecte
-	public void	deconnecter () {
+	public void deconnecter() {
 		joueur.setEtat(joueur.getEtatDeconnecte());
 	}
 
-
 	// quitter le jeu
-	public void quitter () {
+	public void quitter() {
 	}
-
 
 	// Choisir un pseudo
 	public void choisirPseudo() {
 	}
 
-
-	public void rejoindreJeu () {
+	public void rejoindreJeu() {
 	}
 
-
-	public void recevoirPlanJeu () {
+	public void recevoirPlanJeu() {
 	}
 
-
-	public void deplacer (String deplacement) {
+	public void deplacer(String deplacement) {
 
 	}
 
