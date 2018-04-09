@@ -1,5 +1,5 @@
 exec:
-	javac server/*.java client/*.java
+	javac -Xlint server/*.java client/*.java
 
 clean:
 	rm server/*.class client/*.class

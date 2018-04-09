@@ -1,12 +1,31 @@
+package server;
 
 public interface Etat {
 
-	public void connecter ();
-	public void deconnecter ();
+	public String connecter(String pseudo);
+
+	public void deconnecter();
+
 	public void quitter();
-	public void choisirPseudo();
-	public void rejoindreJeu();
+
+	// public String choisirPseudo(String pseudo);
+
 	public void recevoirPlanJeu();
-	public void deplacer(String deplacement);
+
+	public String deplacer(String keySerpent, String direction);
+
+	public String listePartie();
+
+	public String creerPartie(String nomPartie);
+
+	public String rejoindrePartie(int partie);
+
+	public String listeJoueur();
+
+	public String startGame();
+	
+	public String endGame(String keySerpent);
+	
+	public String restartGame(String keySerpent);
 
 }
