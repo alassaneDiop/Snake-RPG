@@ -1,4 +1,12 @@
-package server;
+/** 
+ * 
+ */
+package model;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class Case implements Constantes {
 
@@ -12,11 +20,12 @@ public class Case implements Constantes {
 
 	// renvoie true si la case est contenue dans le plateau de jeu
 	public boolean estValide() {
-		return this.xIndice >= 1 && this.xIndice < NBRE_DE_COLONNES-1
-				&& this.yIndice >= 2 && this.yIndice < NBRE_DE_LIGNES-1;
+		return this.xIndice >= 1 && this.xIndice < NBRE_DE_COLONNES - 1
+				&& this.yIndice >= 3 && this.yIndice < NBRE_DE_LIGNES - 1;
 	}
 
 	@Override
+	// tester si à une case donnée se trouve une grenouille
 	public boolean equals(Object obj) {
 		if (obj instanceof Case) {
 			Case box = (Case) obj;

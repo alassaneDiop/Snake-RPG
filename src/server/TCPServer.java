@@ -1,13 +1,23 @@
+/** 
+ * 
+ */
 package server;
 
 import java.net.*;
 import java.util.*;
 import java.io.*;
 
+import model.Joueur;
+
+/**
+ * @author alassane
+ *
+ */
+
 public class TCPServer {
 
+	// liste des joueurs connectés au serveur
 	static List<ContexteJoueur> lesJoueurs = new ArrayList<ContexteJoueur>();
-	static List<Partie> lesParties = new ArrayList<Partie>();
 
 	static int nbJoueur = 0;
 
@@ -30,7 +40,6 @@ public class TCPServer {
 				while (true) {
 					so = ecoute.accept(); // accepter la connexion d'un client
 
-					// contexteJoueur = new ContexteJoueur(server, so);
 					contexteJoueur = new ContexteJoueur(so);
 
 					ThreadEtat threadEtat = new ThreadEtat(so, contexteJoueur,
@@ -45,6 +54,7 @@ public class TCPServer {
 		}
 	}
 
+	// ajouter un joueur à la liste des joueurs connectés au serveur
 	public static void addJoueur(ContexteJoueur cj) {
 		lesJoueurs.add(cj);
 		nbJoueur++;
@@ -52,6 +62,15 @@ public class TCPServer {
 
 	public static void deleteJoueur(Socket so) {
 		lesJoueurs.remove(so);
+	}
+
+	public static void updateJoueur(ContexteJoueur cj) {
+		for (ContexteJoueur contexte : lesJoueurs) {
+			if (contexte.equals(cj)) {
+				contexte.replace(cj);
+				break;
+			}
+		}
 	}
 
 	// tester si le pseudo est déja utilisé. si déjà utilisé renvoie true
@@ -79,16 +98,11 @@ public class TCPServer {
 		}
 	}
 
-	// Envoyer à tous les joueurs d'une partie
-	public static void sendToPartie(Partie partie, String response) {
-		for (Joueur joueur : partie.lesJoueurs) {
-			sendResponse(joueur.so, response);
+	// Envoyer à tous les joueurs
+	public static void sendToAll(String response) {
+		for (ContexteJoueur joueur : lesJoueurs) {
+			sendResponse(joueur.joueur.so, response);
 		}
-	}
-
-	// Envoyer au patron (createur) d'une partie
-	public static void sendToPartieManager(Partie partie, String response) {
-		sendResponse(partie.lesJoueurs.get(0).so, response);
 	}
 
 	// Répondre à un joueur particulier

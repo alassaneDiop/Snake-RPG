@@ -1,3 +1,6 @@
+/** 
+ * 
+ */
 package client;
 
 // pour un meilleur affichage la console doit être en 80 x 41 (dimensions) 
@@ -7,11 +10,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.Constantes;
+
+/**
+ * @author alassane
+ *
+ */
 public class JFenetre extends Thread {
 
 	JFrame frame;
@@ -38,10 +46,6 @@ public class JFenetre extends Thread {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				// JFenetre.this.modele.affichage(g); // affichage du modèle du
-				// jeu
-				// Facade.affichage(g);
-				// (new Serpent()).affichage(g);
 			}
 		};
 
@@ -68,7 +72,7 @@ public class JFenetre extends Thread {
 		frame.setFocusable(false); // s'assurer du focus pour le listener
 									// clavier
 		// fermeture de l'application lorsque la fenêtre est fermée
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false); // pas de redimensionnement possible de la
 									// fenêtre
 		frame.pack();
@@ -76,27 +80,12 @@ public class JFenetre extends Thread {
 		frame.setVisible(true); // affichage
 	}
 
-	// public void affichage() {
-	//
-	// Facade.affichage(tab);
-	//
-	//
-	// }
-
 	public static void affichage() {
 		Facade.affichage(tab);
 	}
 
 	@Override
 	public void run() {
-		// création de la fenêtre
-		// JFenetre fenetre = new JFenetre();
-		// dimension de ce conteneur
-		// fenetre.content.setPreferredSize(new Dimension(450, 450));
-		// fenetre.setContent();
-
-		// fenetre.paintContent();
-		// fenetre.start();
 
 		/*
 		 * à chaque fois que la boucle est exécutée, la méthode de calcul du jeu

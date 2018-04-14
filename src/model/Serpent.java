@@ -1,17 +1,24 @@
-package server;
+/**  
+ * 
+ */
+package model;
 
 import java.util.LinkedList;
 
+/**
+ * @author alassane
+ *
+ */
 public class Serpent {
 
-	LinkedList<Case> list;
-	Direction direction;
-	boolean vie;
-	String messageVie = "Mangez toutes les grenouilles";
-	Direction demande;
-	int eatCount;
-	int moveCounter;
-	int niveau;
+	public LinkedList<Case> list; // représente le serpent en mode visuel
+	public Direction direction;
+	public boolean vie;
+	public String messageVie = "Mangez toutes les grenouilles";
+	public Direction demande;
+	public int eatCount;
+	public int moveCounter;
+	public int niveau;
 
 	public Serpent() {
 		this.list = new LinkedList<Case>();
@@ -21,7 +28,8 @@ public class Serpent {
 		this.list.add(new Case(17, 15));
 		this.list.add(new Case(18, 15));
 		this.list.add(new Case(19, 15));
-		this.direction = Direction.LEFT;
+		this.direction = Direction.LEFT; // attribuer une direction par défaut
+											// au serpent
 		this.vie = true; // le serpent est vivant
 	}
 
@@ -86,11 +94,14 @@ public class Serpent {
 		return null;
 	}
 
+	// renvoie true, si la case qui se trouve devant la tête du serpent est
+	// valide, c'est à dire pas un mur, pas le corp du serpent lui meme
 	private boolean peutAvancer() {
 		Case nextCase = getNextcase();
 		return nextCase.estValide() && !this.list.contains(nextCase);
 	}
 
+	// renvoie true si la case devant la tete du serpent est une grenouille
 	private boolean peutManger(Grenouille grenouille) {
 		return grenouille.equals(getNextcase());
 	}
@@ -99,44 +110,19 @@ public class Serpent {
 		// ajoute en tête de liste la case sur laquelle
 		// le serpent doit se déplacer
 		this.list.addFirst(getNextcase());
+
 		// comptabiliser les grenouilles "mangées"
 		this.eatCount++;
-	}
 
-	private int getThresholdCounter(int niveau) {
-		switch (niveau) {
-		case 1:
-			return 20;
-		case 2:
-			return 16;
-		case 3:
-			return 14;
-		case 4:
-			return 12;
-		case 5:
-			return 10;
-		case 6:
-			return 8;
-		case 7:
-			return 6;
-		case 8:
-			return 4;
-		case 9:
-			return 3;
-		default:
-			return 2;
+		// à chaque multiple de 3 on incrémente le niveau
+		if (eatCount > 0 && eatCount % 3 == 0) {
+			niveau++;
 		}
 	}
 
+	// calculer et mettre à jour les données du serpent
 	public void calcul(Grenouille grenouille) {
 
-		// incrémenter le compteur
-		// this.moveCounter++;
-		// vérifier qu'il est temps d'animer le serpent
-		// if (this.moveCounter >= getThresholdCounter(niveau)) {
-		// remettre le compteur à zéro
-		// this.moveCounter = 0;
-		// calcul du serpent
 		tourner();
 		if (peutManger(grenouille)) {
 			mange();
@@ -149,21 +135,11 @@ public class Serpent {
 			this.vie = false;
 			this.messageVie = "Aie la tete. Game Over. Rejouer la partie ? Y ou N";
 		}
-		// }
 	}
 
-	public String getPosition() {
-		String chaine = "";
-
-		for (Case c : this.list) {
-			chaine += c.xIndice + "," + c.yIndice + ";";
-		}
-
-		return chaine.substring(0, chaine.length() - 1); // supprimer le dernier
-															// ';'
-	}
-
-	public String getAllPosition() {
+	// parser la position du serpent, ie la position de chaque case formant le
+	// serpent
+	public synchronized String getAllPosition() {
 		String chaine = "";
 
 		for (Case c : list) {

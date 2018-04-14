@@ -1,7 +1,15 @@
+/** 
+ * 
+ */
 package server;
 
 import java.net.Socket;
-import java.util.ArrayList;
+import model.Joueur;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class ContexteJoueur {
 
@@ -10,21 +18,25 @@ public class ContexteJoueur {
 
 	Etat etat;
 
-	// TCPServer server;
 	Socket so;
 
-	Joueur joueur;
+	public Joueur joueur;
 
-	// public ContexteJoueur(TCPServer server, Socket so) {
 	public ContexteJoueur(Socket so) {
 		etatDeconnecte = new EtatDeconnecte(this);
 		etatConnecte = new EtatConnecte(this);
 
-		// this.server = server;
 		this.so = so;
 
 		etat = etatDeconnecte;
 		joueur = new Joueur(so);
+	}
+
+	public void replace(ContexteJoueur cj) {
+		setEtat(cj.etat);
+		this.joueur.so = cj.joueur.so;
+		this.joueur = cj.joueur;
+		this.joueur.password = cj.joueur.password;
 	}
 
 	public void setEtat(Etat etat) {
@@ -39,36 +51,23 @@ public class ContexteJoueur {
 		return etatDeconnecte;
 	}
 
-	public String connecter(String pseudo) {
-		return etat.connecter(pseudo);
+	// connexion
+	public String connecter(String pseudo, String password) {
+		return etat.connecter(pseudo, password);
 	}
 
+	// liste des joueurs connectés
 	public String listeJoueur() {
 		return etat.listeJoueur();
 	}
 
-	public String listePartie() {
-		return etat.listePartie();
-	}
-
-	public String creerPartie(String nomPartie) {
-		return etat.creerPartie(nomPartie);
-	}
-
-	public String rejoindrePartie(int numeroPartie) {
-		return etat.rejoindrePartie(numeroPartie);
+	public String rejoindreGame() {
+		return etat.rejoindreGame();
 	}
 
 	// démarrer la partie de jeu
 	public String startGame(String keySerpent) {
-		if (ModeleDuJeu.getInstance().lesSerpents.containsKey(keySerpent)) {
-			Partie.running = true;
-			(new Partie()).start();
-
-			return etat.startGame();
-		}
-		
-		return "Veuiller rejoindre une partie de jeu";
+		return etat.startGame();
 	}
 
 	// quitter la partie de jeu
@@ -81,6 +80,7 @@ public class ContexteJoueur {
 		return etat.restartGame(keySerpent);
 	}
 
+	// prendre en compte le déplacement du serpent
 	public String deplacer(String keySerpent, String direction) {
 		switch (direction) {
 		case "UP":
@@ -94,11 +94,14 @@ public class ContexteJoueur {
 		}
 	}
 
+	// deconnexion
 	public void deconnecter() {
 		etat.deconnecter();
 	}
 
-	public void quitter() {
+	// quitter le jeu
+	public void quitter(String pseudo) {
+		etat.quitter(pseudo);
 
 	}
 

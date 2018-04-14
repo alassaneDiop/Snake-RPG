@@ -1,3 +1,6 @@
+/** 
+ * 
+ */
 package client;
 
 import java.util.HashMap;
@@ -5,14 +8,24 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import model.Constantes;
+
+/**
+ * @author alassane
+ *
+ */
 public class Facade {
 
+	// une hapMash de serpent les pseudos des joueurs représentent les clés des
+	// serpents
 	static final Map<String, Serpent> lesSerpents = new HashMap<String, Serpent>();
 	static final Grenouille grenouille = new Grenouille(0, 0);
 
 	public Facade() {
 	}
 
+	// recréer les serpents en partant de la chaine parsée envoyée par le
+	// serveur
 	public static void setSerpents(String serpent) {
 		String serp[] = serpent.split("\\|");
 
@@ -33,13 +46,6 @@ public class Facade {
 				lesSerpents.put(S.nomSerpent, S);
 			}
 		}
-
-//		System.out.println("taille des grenouilles: " + grenouille);
-//		for (Entry<String, Serpent> ser : Facade.lesSerpents.entrySet()) {
-//			Serpent s = ser.getValue();
-//			System.out.println(ser.getKey());
-//		}
-
 	}
 
 	public static void setGrenouilles(String grenou) {
@@ -90,11 +96,14 @@ public class Facade {
 		return listCase;
 	}
 
+	// commencer la partie
 	public static void startGame() {
 		JFenetre.running = true;
 		(new JFenetre()).start();
 	}
-	
+
+	// affichage des serpents et grenouille.
+	// le serpent est matérialisé par des étoiless, la grenouille par 0
 	public static void affichage(String[][] tab) {
 		initMap(tab);
 		// affichage du serpent
@@ -139,28 +148,37 @@ public class Facade {
 			e.printStackTrace();
 		}
 
-		i += 5; // décaler de 5 cases
+		i++;
 
-		// affichage du score et du message de vie
+		// affichage du score du niveau et du message de vie
 		for (int j = 0; j < "score = ".length(); j++) {
 			tab[1][i] = "score = ".substring(j, j + 1);
 			i++;
 		}
 
 		try {
-			// String pseudo = Joueur.getInstance().pseudo;
-			// System.out.println("instance à vérifier"
-			// + Facade.lesSerpents.get(pseudo));
 
 			tab[1][i] = Facade.lesSerpents.get(Joueur.getInstance().pseudo).eatCount
 					+ "";
+			i++;
+
+			for (int j = 0; j < " niveau = ".length(); j++) {
+				tab[1][i] = " niveau = ".substring(j, j + 1);
+				i++;
+			}
+
+			tab[1][i] = Facade.lesSerpents.get(Joueur.getInstance().pseudo).niveau
+					+ "";
+
 			i += 2;
+
 			for (int j = 0; j < Facade.lesSerpents
 					.get(Joueur.getInstance().pseudo).messageVie.length(); j++) {
 				tab[1][i] = Facade.lesSerpents.get(Joueur.getInstance().pseudo).messageVie
 						.substring(j, j + 1);
 				i++;
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,8 +1,20 @@
+/** 
+ * 
+ */
 package server;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import model.Direction;
+import model.Grenouille;
+import model.Serpent;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class ModeleDuJeu {
 
@@ -10,7 +22,6 @@ public class ModeleDuJeu {
 	boolean laPartieEstPerdue;
 	Grenouille grenouille;
 
-	// request[0] = request; request[1] = argument
 	String[] request = new String[2];
 
 	private static ModeleDuJeu instance = null;
@@ -29,54 +40,15 @@ public class ModeleDuJeu {
 		return instance;
 	}
 
-	public void getNiveau() {
-		for (Entry<String, Serpent> serpent : lesSerpents.entrySet()) {
-			serpent.getValue().niveau = (serpent.getValue().eatCount / 5) + 1;
-		}
-	}
-
 	public void setDirection(String keySerpent, Direction direction) {
 		lesSerpents.get(keySerpent).setDemandeClavier(direction);
 	}
 
 	// le calcul du jeu
 	public void calcul() {
-
-		// if (!this.laPartieEstPerdue) {
-		// // calcul de grenouille
-		// this.grenouille.calcul();
-		// // calcul du serpent
-		// // this.serpent.calcul(this.grenouille, getNiveau());
-		//
-		// this.getNiveau();
-		//
-		// for (Entry<String, Serpent> serpent : lesSerpents.entrySet()) {
-		// serpent.getValue().calcul(this.grenouille,
-		// serpent.getValue().getNiveau());
-		//
-		// if (!serpent.getValue().getVie()) {
-		// // la partie est perdue car le serpent a atteint les limites
-		// // du plateau de jeu
-		// this.laPartieEstPerdue = true;
-		//
-		// }
-		// }
-		// }
 		for (Entry<String, Serpent> serpent : lesSerpents.entrySet()) {
-			// this.getNiveau() = serpent.getValue().getEatCount() / 5) + 1;
-
 			serpent.getValue().calcul(this.grenouille);
-
-			// if (!serpent.getValue().getVie()) {
-			// // la partie est perdue car le serpent a atteint les
-			// // limites
-			// // du plateau de jeu
-			// this.laPartieEstPerdue = true;
-
-			// }
 		}
-		// }
-		// }
 	}
 
 	public void addSerpent(String nomSerpent) {
@@ -86,14 +58,15 @@ public class ModeleDuJeu {
 			lesSerpents.put(nomSerpent, new Serpent());
 	}
 
-
+	// renvoie une chaine de caractére qui parse les nouvelles positions de tous
+	// les serpents
 	public String map() {
-		String chaineSerpent = "\"serpent\"[", chaineGrenouille = "\"grenouille\"[", chaineObstacle = "\"obstacle\"[";
+		String chaineSerpent = "\"serpent\"[", chaineGrenouille = "\"grenouille\"[";
 
 		for (Entry<String, Serpent> serpent : lesSerpents.entrySet()) {
-			// n° serpent/longueur/niveau/vie
+			// n° serpent/longueur/niveau/vie messagevie/score
 			chaineSerpent += serpent.getKey() + "/"
-					+ serpent.getValue().getPosition() + "/"
+					+ serpent.getValue().getAllPosition() + "/"
 					+ serpent.getValue().niveau + "/" + serpent.getValue().vie
 					+ "," + serpent.getValue().messageVie + "/"
 					+ serpent.getValue().eatCount + "|";

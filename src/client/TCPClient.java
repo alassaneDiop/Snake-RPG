@@ -1,14 +1,18 @@
+/** 
+ * 
+ */
 package client;
 
-// TCPClient.java  
-// A client program implementing TCP socket
 import java.net.*;
 import java.io.*;
 
+/**
+ * @author alassane
+ *
+ */
 class TCPClient {
 
-	public static void main(String args[]) { // arguments supply message and
-												// hostname of destination
+	public static void main(String args[]) {
 		Socket so = null;
 		String serveur; // le serveur
 		int port; // le port de connexion
@@ -21,9 +25,11 @@ class TCPClient {
 				so = new Socket(serveur, port);
 
 				Joueur.getInstance(so); // instancier le joueur
+
 				ClientSend sending = new ClientSend(so);
 				ClientReceive receiving = new ClientReceive(so);
 
+				// demarrer les thread de reception et d'envoi
 				sending.start();
 				receiving.start();
 

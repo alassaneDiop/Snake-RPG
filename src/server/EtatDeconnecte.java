@@ -1,4 +1,15 @@
+/** 
+ * 
+ */
 package server;
+
+import dao.DAOFactory;
+import dao.JoueurDaoImpl;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class EtatDeconnecte implements Etat {
 
@@ -12,22 +23,27 @@ public class EtatDeconnecte implements Etat {
 
 	// Connecter le joueur et passer à l'état EtatConnecte
 	@Override
-	public String connecter(String pseudo) {
+	public String connecter(String pseudo, String password) {
 		if (pseudo == null)
-			return "Commande incorrecte. \"/join votrePseudo\"";
+			return "Commande incorrecte. \"/join votrePseudo-password\"";
 
-		// tester si le pseudo est dispo
-		if (!TCPServer.checkPseudo(pseudo))
-			joueur.joueur.pseudo = pseudo;
-		else
-			return "Erreur pseudo pas disponible";
+		// chercher le joueur
+		if ((new JoueurDaoImpl(DAOFactory.getInstance())).trouver(pseudo,
+				password) == null)
+			return "Joueur inconnu ou mot de passe incorrect";
 
+		else {
+			// tester si le pseudo est indispo
+			if (TCPServer.checkPseudo(pseudo))
+				return "Un joueur est deja connecte avec ce pseudo";
+		}
+
+		joueur.joueur.pseudo = pseudo;
 		joueur.setEtat(joueur.getEtatConnecte());
 		TCPServer.addJoueur(joueur);
+		ServerReceive.pseudo = pseudo;
 
-		return "join:" + joueur.joueur.getPseudo("valide");
-		// return "pseudo valide";
-		// "Vous êtes connectés.\n 100 [Bienvenue au jeu] / 204 [Identification échouée]";
+		return "join:" + joueur.joueur.getPseudo("connecté");
 	}
 
 	@Override
@@ -37,24 +53,13 @@ public class EtatDeconnecte implements Etat {
 
 	// quitter le jeu
 	@Override
-	public void quitter() {
+	public void quitter(String pseudo) {
 		System.out.println("Vous êtes déjà déconnectés");
 	}
 
-	// Choisir un pseudo
-	// @Override
-	// public String choisirPseudo(String pseudo) {
-	// return "Cette commande n'est pas disponible";
-	// }
-
 	@Override
-	public String rejoindrePartie(int partie) {
+	public String rejoindreGame() {
 		return "Cette commande n'est pas disponible";
-	}
-
-	@Override
-	public void recevoirPlanJeu() {
-		System.out.println("Vous êtes déjà déconnectés");
 	}
 
 	@Override
@@ -64,18 +69,7 @@ public class EtatDeconnecte implements Etat {
 	}
 
 	@Override
-	public String creerPartie(String nomPartie) {
-		return "Cette commande n'est pas disponible";
-
-	}
-
-	@Override
 	public String listeJoueur() {
-		return "Cette information n'est pas disponible";
-	}
-
-	@Override
-	public String listePartie() {
 		return "Cette information n'est pas disponible";
 	}
 
@@ -83,12 +77,12 @@ public class EtatDeconnecte implements Etat {
 	public String startGame() {
 		return "Cette information n'est pas disponible";
 	}
-	
+
 	@Override
 	public String endGame(String keySerpent) {
 		return "Cette information n'est pas disponible";
 	}
-	
+
 	@Override
 	public String restartGame(String keySerpent) {
 		return "Cette information n'est pas disponible";

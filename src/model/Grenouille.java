@@ -1,6 +1,14 @@
-package server;
+/** 
+ * 
+ */
+package model;
 
 import java.util.Random;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class Grenouille extends Case {
 
@@ -11,20 +19,20 @@ public class Grenouille extends Case {
 	}
 
 	private static int getRandomX() {
-		return RND.nextInt((NBRE_DE_COLONNES -1) - 1) + 1;
-		// return RND.nextInt(NBRE_DE_COLONNES - 3);
+		return RND.nextInt((NBRE_DE_COLONNES - 1) - 1) + 1;
 	}
 
 	private static int getRandomY() {
-//		return RND.nextInt(NBRE_DE_LIGNES);
-		return RND.nextInt((NBRE_DE_LIGNES-1) - 3) + 3;
+		return RND.nextInt((NBRE_DE_LIGNES - 1) - 3) + 3;
 	}
 
+	// générer une nouvelle grenouille
 	public void nouvelleGrenouille() {
 		xIndice = getRandomX();
 		yIndice = getRandomY();
 	}
 
+	// parser la position de la grenouille
 	public String getPosition() {
 		String chaine = "";
 		chaine += xIndice + "," + yIndice + ";";

@@ -1,7 +1,18 @@
+/** 
+ * 
+ */
 package server;
 
+import java.io.IOException;
 import java.util.List;
 
+import model.Direction;
+import model.Serpent;
+
+/**
+ * @author alassane
+ *
+ */
 public class EtatConnecte implements Etat {
 
 	ContexteJoueur contexteJoueur;
@@ -11,7 +22,7 @@ public class EtatConnecte implements Etat {
 	}
 
 	@Override
-	public String connecter(String pseudo) {
+	public String connecter(String pseudo, String password) {
 		return "Vous êtes déjà connectés";
 	}
 
@@ -26,12 +37,17 @@ public class EtatConnecte implements Etat {
 
 	// quitter le jeu
 	@Override
-	public void quitter() {
+	public void quitter(String pseudo) {
+		ModeleDuJeu.getInstance().lesSerpents.remove(pseudo);
+		try {
+			TCPServer.sendToUnJoueur(pseudo, "quit");
+			contexteJoueur.joueur.so.close();
+			TCPServer.lesJoueurs.remove(contexteJoueur);
+			TCPServer.sendToAll(pseudo + " est parti");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	}
-
-	@Override
-	public void recevoirPlanJeu() {
 	}
 
 	@Override
@@ -67,35 +83,19 @@ public class EtatConnecte implements Etat {
 	}
 
 	@Override
-	public String creerPartie(String nomPartie) {
-		if (contexteJoueur.joueur.pseudo == null)
-			return "Veuillez choisir un pseudo pour continuer";
-
-		if (nomPartie == null)
-			return "Commande incorrecte. \"/newGame nomPartie\"";
-
-		contexteJoueur.joueur.serpent = new Serpent();
-		ModeleDuJeu.getInstance().addSerpent(contexteJoueur.joueur.pseudo);
-		TCPServer.lesParties.add(new Partie(contexteJoueur.joueur, nomPartie));
-
-		return "newGame:" + ModeleDuJeu.getInstance().map();
-	}
-
-	@Override
-	public String rejoindrePartie(int index) {
+	public String rejoindreGame() {
 		try {
-			Partie partie = TCPServer.lesParties.get(index - 1);
-			partie.joinPartie(contexteJoueur.joueur);
+			Partie.getInstance().joinPartie(contexteJoueur.joueur);
 			contexteJoueur.joueur.serpent = new Serpent();
 			ModeleDuJeu.getInstance().addSerpent(contexteJoueur.joueur.pseudo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		if (Partie.running) {
-			return "joinGame:";
+		if (Partie.isRunning) {
+			return "joinGame:" + ModeleDuJeu.getInstance().map();
 		} else {
-			return "newGame:" + ModeleDuJeu.getInstance().map();
+			return "Veuiller démarrer la partie \"startGame\"";
 		}
 	}
 
@@ -117,28 +117,29 @@ public class EtatConnecte implements Etat {
 	}
 
 	@Override
-	public String listePartie() {
+	public String startGame() {
+		if (contexteJoueur.joueur.pseudo == null)
+			return "Veuillez choisir un pseudo pour continuer";
 
-		String liste = "listGame:";
-
-		int i = 1;
-
-		for (Partie partie : TCPServer.lesParties) {
-			liste += "\n\t\tPartie " + i + " => " + partie.nomPartie + partie;
-			i++;
+		if (Partie.isRunning) {
+			rejoindreGame();
+		} else {
+			contexteJoueur.joueur.serpent = new Serpent();
+			ModeleDuJeu.getInstance().addSerpent(contexteJoueur.joueur.pseudo);
 		}
 
-		return liste;
-	}
-
-	@Override
-	public String startGame() {
-		return "startGame:";
+		Partie.running = true;
+		return "startGame:" + ModeleDuJeu.getInstance().map();
 	}
 
 	@Override
 	public String endGame(String keySerpent) {
 		if (!ModeleDuJeu.getInstance().lesSerpents.get(keySerpent).vie) {
+
+			// mettre à jour le serpent dans son joueur
+			contexteJoueur.joueur.serpent = ModeleDuJeu.getInstance().lesSerpents
+					.get(keySerpent);
+			TCPServer.updateJoueur(contexteJoueur);
 			ModeleDuJeu.getInstance().lesSerpents.remove(keySerpent);
 			return "endGame:";
 		}

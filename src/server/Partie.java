@@ -1,23 +1,37 @@
+/**  
+ * 
+ */
 package server;
 
 import java.util.ArrayList;
 
+import model.Joueur;
+import dao.DAOFactory;
+import dao.JoueurDaoImpl;
+
+/**
+ * @author alassane
+ *
+ */
 public class Partie extends Thread {
 
-	// Le joueur à la position 0 est celui qui crée la partie
+	// liste des joueurs qui sont déjà dans la partie de jeu
 	ArrayList<Joueur> lesJoueurs;
-	String nomPartie;
 
+	private static volatile Partie instance;
+
+	volatile static boolean isRunning = false;
 	volatile static boolean running = true;
 
-	public Partie(Joueur joueur, String nom) {
+	private Partie() {
 		lesJoueurs = new ArrayList<Joueur>();
-		lesJoueurs.add(joueur);
-		this.nomPartie = nom;
 	}
 
-	public Partie() {
-
+	public static Partie getInstance() {
+		if (instance == null) {
+			instance = new Partie();
+		}
+		return instance;
 	}
 
 	public void joinPartie(Joueur joueur) {
@@ -29,12 +43,8 @@ public class Partie extends Thread {
 		lesJoueurs.remove(joueur);
 	}
 
-	public void setNomPartie(String nom) {
-		this.nomPartie = nom;
-	}
-
 	public String toString() {
-		String liste = "Liste des joueurs de la partie " + nomPartie;
+		String liste = "Liste des joueurs de la partie ";
 
 		int i = 1;
 		for (Joueur joueur : lesJoueurs) {
@@ -56,27 +66,16 @@ public class Partie extends Thread {
 
 			if (ModeleDuJeu.getInstance().lesSerpents.isEmpty()) {
 				running = false;
+				isRunning = false;
 			} else {
-//				System.out.println("La partie est en cours");
+				// System.out.println("La partie est en cours");
 				ModeleDuJeu.getInstance().calcul();
-				TCPServer.sendToPartie(TCPServer.lesParties.get(0), "turn:"
-						+ ModeleDuJeu.getInstance().map());
+				// System.out.println("Message à envoyer : "
+				// + ModeleDuJeu.getInstance().map());
 
-				// for (Entry<String, Serpent> serpent :
-				// ModeleDuJeu.getInstance().lesSerpents
-				// .entrySet()) {
-				//
-				// //
-				// serpent.getValue().calcul(ModeleDuJeu.getInstance().grenouille,
-				// // serpent.getValue().getNiveau());
-				//
-				// System.out.println("position à envoyer : "
-				// + serpent.getValue().getAllPosition());
-				//
-				// TCPServer.sendToUnJoueur(serpent.getKey(), "position "
-				// + serpent.getValue().getAllPosition());
-				//
-				// }
+				// envoyer la nouvelle map, les nouvelles positions parsées de
+				// tous les joueurs
+				TCPServer.sendToAll("turn:" + ModeleDuJeu.getInstance().map());
 
 				// temporisation
 				try {
@@ -88,5 +87,10 @@ public class Partie extends Thread {
 
 		}
 
+		running = true;
+
+		// enregistrer le bilan de la partie dans la bdd
+		(new JoueurDaoImpl(DAOFactory.getInstance()))
+				.process(TCPServer.lesJoueurs);
 	}
 }

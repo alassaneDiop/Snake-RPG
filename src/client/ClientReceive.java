@@ -1,3 +1,6 @@
+/** 
+ * 
+ */
 package client;
 
 import java.io.DataInputStream;
@@ -5,13 +8,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-//Thread pour recevoir
+/**
+ * @author alassane
+ *
+ */
+// Thread pour recevoir
 class ClientReceive extends Thread {
 
 	Socket so = null;
 	DataInputStream entree = null;
 	String response;
-	ObjectInputStream entreeObject = null;
 
 	JFenetre fenetre;
 
@@ -19,21 +25,32 @@ class ClientReceive extends Thread {
 		this.so = so;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void run() {
 
-		while (true) {
+		while (!so.isClosed()) {
 			try {
 				entree = new DataInputStream(so.getInputStream());
 				response = entree.readLine();
+				// if (response == "quit") {
+				// try {
+				// entree.close();
+				// so.close();
+				// break;
+				// } catch (IOException e) {
+				// e.printStackTrace();
+				// }
+				// }
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-//			 System.out.println("Réponse du serveur : " + response);
+			// System.out.println("Réponse du serveur : " + response);
 			gestionMessageServer(response);
 		}
 	}
 
+	// faire le traitement correspondant à la réponse du serveur
 	public void gestionMessageServer(String message) {
 
 		String request = null;
@@ -53,7 +70,6 @@ class ClientReceive extends Thread {
 					break;
 
 				case "listJoueur":
-				case "listGame":
 					System.out.println("Reponse du serveur : " + message);
 					break;
 
@@ -64,6 +80,7 @@ class ClientReceive extends Thread {
 
 				case "startGame":
 				case "joinGame":
+					Facade.splitMessage(message.split(":")[1]);
 					JFenetre.request = "turn";
 					Facade.startGame();
 					break;

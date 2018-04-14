@@ -1,20 +1,23 @@
+/** 
+ * 
+ */
 package server;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.net.Socket;
 
+/**
+ * @author alassane
+ *
+ */
+
 /*
- * Thread pour le renvoi des messages aux clients
+ * Thread pour la réception des messages
  */
 public class ThreadEtat extends Thread {
 
 	Socket so;
 	ContexteJoueur contexte;
 	TCPServer server;
-
-	// BufferedReader entree;
-	// DataOutputStream sortie;
 
 	String ch;
 
@@ -26,13 +29,10 @@ public class ThreadEtat extends Thread {
 
 	public void run() {
 		try {
-			// while (true) {
 
 			ServerReceive receiver = new ServerReceive(so, contexte, server);
-			// ServerSend sender = new ServerSend(so);
 			receiver.start();
-			// sender.start();
-			// }
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

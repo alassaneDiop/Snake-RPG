@@ -1,8 +1,17 @@
+/** 
+ * 
+ */
 package client;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
+import model.Direction;
+
+/**
+ * @author alassane
+ *
+ */
 public class Serpent {
 
 	LinkedList<Case> list;
@@ -58,11 +67,11 @@ public class Serpent {
 		case KeyEvent.VK_DOWN:
 			TCPClient.sendToServer("/turn DOWN");
 			break;
-			
+
 		case KeyEvent.VK_Y:
 			TCPClient.sendToServer("/restartGame");
 			break;
-			
+
 		case KeyEvent.VK_N:
 			TCPClient.sendToServer("/endGame");
 			break;

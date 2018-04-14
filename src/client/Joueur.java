@@ -1,7 +1,14 @@
+/** 
+ * 
+ */
 package client;
 
 import java.net.Socket;
 
+/**
+ * @author alassane
+ *
+ */
 public class Joueur {
 
 	String pseudo;
@@ -16,7 +23,6 @@ public class Joueur {
 		this.so = so;
 	}
 
-	// appeler seulement pour accéder à certaines fonctions de cette classe
 	public static Joueur getInstance() {
 		return instance;
 	}

@@ -1,7 +1,17 @@
+/** 
+ * 
+ */
+// Thread d'envoie de message
+
 package server;
 
 import java.io.PrintWriter;
 import java.net.Socket;
+
+/**
+ * @author alassane
+ *
+ */
 
 public class ServerSend extends Thread {
 

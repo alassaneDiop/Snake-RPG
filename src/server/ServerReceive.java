@@ -1,22 +1,25 @@
+/** 
+ * 
+ */
 package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
  * 
- * @author ALASSANE
+ * @author alassane
  */
 public class ServerReceive extends Thread {
 
 	Socket client;
 	BufferedReader entree;
 	ContexteJoueur contexte;
-	String response, pseudo;
+	String response;
+	static String pseudo = null;
 	TCPServer server;
 	PrintWriter out;
 
@@ -32,11 +35,17 @@ public class ServerReceive extends Thread {
 	}
 
 	public void gestionCommande(String requete) {
-		String commande, argument = null;
+		String commande = null, argument = null;
 
 		if (requete.contains(" ")) {
-			commande = requete.split(" ")[0];
-			argument = requete.split(" ")[1];
+			try {
+				commande = requete.split(" ")[0];
+				argument = requete.split(" ")[1];
+			} catch (Exception e) {
+				// e.printStackTrace();
+				argument = null;
+			}
+
 		} else {
 			commande = requete;
 		}
@@ -50,44 +59,39 @@ public class ServerReceive extends Thread {
 												// joueur
 		}
 
-		// System.out.println("Commande : " + commande + " argument : " +
-		// argument+ " Pseudo " + pseudo);
-
 		switch (commande) {
 
 		case "/join":
-			response = contexte.connecter(argument);
+			String password = null;
+			String pse = argument;
+			if (argument != null && argument.contains("-")) {
+				password = argument.split("-")[1];
+				pse = argument.split("-")[0];
+			}
+
+			response = contexte.connecter(pse, password);
 			break;
 
 		case "/listJoueur":
 			response = contexte.listeJoueur();
 			break;
 
-		case "/listGame":
-			response = contexte.listePartie();
-			break;
-
 		case "/joinGame":
-			response = contexte.rejoindrePartie(Integer.parseInt(argument));
-			break;
-
-		case "/newGame":
-			response = contexte.creerPartie(argument);
-			// ModeleDuJeu modele = new ModeleDuJeu();
-			// modele.setMessage("Message de test");
-			// try {
-			// ObjectOutputStream outputStream = new ObjectOutputStream(
-			// client.getOutputStream());
-			// outputStream.writeObject(modele);
-			// } catch (IOException e1) {
-			// e1.printStackTrace();
-			// }
-
-			//
+			response = contexte.rejoindreGame();
 			break;
 
 		case "/startGame":
 			response = contexte.startGame(pseudo);
+			if (!Partie.isRunning) {
+				Partie.isRunning = true;
+				try {
+					(Partie.getInstance()).start(); // lancer le thread de la
+													// partie
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
 			break;
 
 		case "/restartGame":
@@ -100,9 +104,6 @@ public class ServerReceive extends Thread {
 
 		case "/turn":
 			response = contexte.deplacer(pseudo, argument);
-			// TCPServer
-			// .sendToPartieManager(TCPServer.lesParties.get(0), response);
-			// TCPServer.sendToPartie(TCPServer.lesParties.get(0), response);
 			response = null;
 			break;
 
@@ -111,14 +112,7 @@ public class ServerReceive extends Thread {
 			break;
 
 		case "/quit":
-			try {
-				contexte.quitter();
-				entree.close();
-				client.close();
-				// this.interrupt();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			contexte.quitter(pseudo);
 			break;
 
 		default:
@@ -128,13 +122,17 @@ public class ServerReceive extends Thread {
 
 		System.out.println("Requete du joueur " + requete);
 
+		System.out.println("Réponse du server " + response);
+
+		// Aprés chaque traitement de message de joueur, si réponse est
+		// renseignée, transmettre la réponse au joueur
 		if (response != null) {
-			try {
-				out = new PrintWriter(client.getOutputStream(), true);
-				out.println(response); // envoyer une donnee sur le reseau
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// if (pseudo == null)
+			TCPServer.sendResponse(contexte.so, response);
+			// else
+			// TCPServer.sendToUnJoueur(pseudo, response);
+
+			response = null;
 		}
 
 	}
@@ -144,28 +142,21 @@ public class ServerReceive extends Thread {
 		try {
 			// initialise le buffer pour les flux entrant du reseau
 			entree = new BufferedReader(new InputStreamReader(
-					client.getInputStream())); // client.getInputStream() le
+					client.getInputStream()));
 			while (true) {
-
-				String commande = entree.readLine(); // lire le pseudo du client
+				String commande = entree.readLine(); // lire la commande du
+														// joueur
 
 				if (commande != null) {
-
 					gestionCommande(commande);
-					// while (true) {
-					// ServerResponse answer = new ServerResponse(this, client);
-					// answer.start();
-
-					// response = message;
-					// setResponse();
-
-				} else
-					break;
+				}
+				// else
+				// break;
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println(ex.getMessage());
+			System.out.println(pseudo + " est parti");
 		}
 		// finally {
 		// try {
